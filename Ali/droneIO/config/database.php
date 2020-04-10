@@ -44,6 +44,7 @@ return [
         ],
 
         'mysql' => [
+            
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -54,6 +55,8 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
+            // 'charset' => 'utf8',
+            // 'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
@@ -145,3 +148,9 @@ return [
     ],
 
 ];
+// DB_CONNECTION=mysql
+// DB_HOST=us-cdbr-iron-east-01.cleardb.net
+// DB_PORT=3306
+// DB_DATABASE=heroku_43e3daab42a1009
+// DB_USERNAME=bfc60ef859aafa
+// DB_PASSWORD=2f95ca91

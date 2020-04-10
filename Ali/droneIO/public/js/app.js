@@ -1899,10 +1899,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusComponent.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusComponent.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1938,38 +1938,126 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      id: '',
       messages: {}
     };
   },
-  created: function created() {
-    this.fetchStatus();
-    this.listen();
-  },
   methods: {
-    fetchStatus: function fetchStatus() {
-      axios.get('fetchStatus');
+    processForm: function processForm() {
+      // console.log({ name: this.name, email: this.email });
+      // alert('name=name/' + this.name + '/email/' + this.email);
+      var url = 'drones/' + this.id + '/fetchStatusDrone';
+      console.log(url);
+      axios.get(url);
+      this.listen();
     },
     listen: function listen() {
       var _this = this;
 
-      Echo.channel('home').listen('NewMessage2', function (event) {
-        console.log('111'); //this.messages.push(event);
-
+      Echo.channel("drone.".concat(this.id)).listen('Status', function (event) {
+        //this.messages.push(event);
         _this.$set(_this.messages, 'droneID', event);
 
         console.log(event);
       });
     }
-  },
-  computed: {
-    uniqMessages: function uniqMessages() {
-      return _.uniqBy(this.messages, 'droneID');
-    }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// var id;
+// export default {
+//     data() {
+//         return {
+//             messages: {},
+//         }
+//     },
+//     created(){
+//         this.fetchStatus();
+//         this.listen();
+//     },
+//     methods: {
+//         fetchStatus()
+//         {
+//             axios.get(`drones/${id}/fetchStatusDrone`);
+//         },
+//         listen()
+//         {
+//             Echo.channel(`drone.${id}`)
+//             .listen('status',(event) => {
+//                 //this.messages.push(event);
+//                 this.$set(this.messages, 'droneID', event);
+//                 console.log(event);
+//             });
+//         }
+//     },
+//     computed: {
+//         uniqMessages () {
+//             return _.uniqBy(this.messages, 'droneID')
+//         }
+//     }
+// }
+// $('#id').change(function () {
+//     console.log('hiiii');
+//     $('#getDrone').attr('action', 'drones/' + $('#id').val() + '/fetchStatusDrone');
+//     id = $('#id').val();
+// });
 
 /***/ }),
 
@@ -47234,6 +47322,138 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "hero is-fullheight is-info is-bold" }, [
+    _c("div", { staticClass: "hero-body" }, [
+      _c(
+        "div",
+        { staticClass: "container" },
+        [
+          _c("h1", { staticClass: "title has-text-centered" }, [
+            _vm._v("Vue.js Form Processing")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "box" }, [
+            _c(
+              "form",
+              {
+                attrs: { id: "signup-form" },
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.processForm($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "field" }, [
+                  _c("label", { staticClass: "label" }, [_vm._v("ID")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.id,
+                        expression: "id"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text", name: "id" },
+                    domProps: { value: _vm.id },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.id = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.messages, function(message) {
+            return _c("p", { staticClass: "p-2" }, [
+              _vm._v("\n    ID : " + _vm._s(message.droneID) + "\n    "),
+              _c("br"),
+              _vm._v(
+                "\n    Number of Motors : " +
+                  _vm._s(message.numMotors) +
+                  "\n    "
+              ),
+              _c("br"),
+              _vm._v(
+                "\n    Battery Voltage : " +
+                  _vm._s(message.batteryVolts) +
+                  "\n    "
+              ),
+              _c("br"),
+              _vm._v(
+                "\n    Location : " +
+                  _vm._s(message.location[0].long) +
+                  ", " +
+                  _vm._s(message.location[0].lat) +
+                  "\n    "
+              ),
+              _c("br"),
+              _vm._v(
+                "\n    Mission Started By : " +
+                  _vm._s(message.missionStartedBy) +
+                  "\n    "
+              ),
+              _c("br"),
+              _vm._v(
+                "\n    Mission Started At : " +
+                  _vm._s(message.missionStartedAt) +
+                  "\n\n    "
+              )
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "field has-text-right" }, [
+      _c(
+        "button",
+        { staticClass: "button is-danger", attrs: { type: "submit" } },
+        [_vm._v("Submit")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusComponent.vue?vue&type=template&id=08ccbc10&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusComponent.vue?vue&type=template&id=08ccbc10& ***!
@@ -47254,52 +47474,45 @@ var render = function() {
       _c("div", { staticClass: "card card-default" }, [
         _c("div", { staticClass: "card-header" }, [_vm._v("Status")]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "card-body p-0" },
-          _vm._l(_vm.messages, function(message) {
-            return _c("p", { staticClass: "p-2" }, [
-              _vm._v(
-                "\n                         ID : " +
-                  _vm._s(message.droneID) +
-                  "\n                        "
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                        Number of Motors : " +
-                  _vm._s(message.numMotors) +
-                  "\n                        "
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                        Battery Voltage : " +
-                  _vm._s(message.batteryVolts) +
-                  "\n                        "
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                        Location : " +
-                  _vm._s(message.location[0].long) +
-                  ", " +
-                  _vm._s(message.location[0].lat) +
-                  "\n                        "
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                        Mission Started By : " +
-                  _vm._s(message.missionStartedBy) +
-                  "\n                        "
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                        Mission Started At : " +
-                  _vm._s(message.missionStartedAt) +
-                  "\n\n                    "
-              )
-            ])
-          }),
-          0
-        )
+        _c("div", { staticClass: "card-body p-0" }, [
+          _c(
+            "form",
+            {
+              attrs: {
+                action: "drones/{id}/fetchStatusDrone",
+                method: "get",
+                id: "getDrone"
+              }
+            },
+            [
+              _vm._v("\n                     Enter ID:\n                     "),
+              _c("input", { attrs: { type: "text", id: "id" } }),
+              _vm._v(" "),
+              _c("input", { attrs: { type: "submit", value: "Get Status!" } }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.id,
+                    expression: "id"
+                  }
+                ],
+                attrs: { placeholder: "Type Drone ID.." },
+                domProps: { value: _vm.id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.id = $event.target.value
+                  }
+                }
+              })
+            ]
+          )
+        ])
       ])
     ])
   ])
@@ -59494,6 +59707,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('status', __webpack_require__(/*! ./components/StatusComponent.vue */ "./resources/js/components/StatusComponent.vue")["default"]);
+Vue.component('dronestatus', __webpack_require__(/*! ./components/DroneStatusComponent.vue */ "./resources/js/components/DroneStatusComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -59550,17 +59764,98 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: 'myKey',
   wsHost: window.location.hostname,
+  // wsHost: '65582ce4.ngrok.io',
   wsPort: 6001
-});
-window.Echo.channel('home').listen('NewMessage', function (e) {
-  console.log(e);
-});
-window.Echo.channel('home').listen('NewMessage2', function (e) {
-  console.log(e);
-}); // window.Echo.channel('home').listen('client-RcvEvent', (e) => {
+}); // window.Echo.channel('home').listen('NewMessage', (e) => {
+//     console.log(e);
+// });
+
+window.Echo.channel('home').listen('NewMessage2', function (res) {
+  console.log(res);
+  console.log(res.header);
+
+  if (res.header == 'register') {
+    axios.get('drones/getNewId');
+    axios.post('drones', res);
+  } // axios.post('drones', e);
+
+}); // var callback = function(eventName, data) {
+//     console.log(`bind global: The event ${eventName} was triggered with data ${JSON.stringify(data)}`);
+//   };
+//bind to all events on the connection
+// window.Echo.bind_global(callback);// window.Echo.channel('home').listen('client-RcvEvent', (e) => {
 //     console.log('Client Event Received...');
 //     console.log(e);
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/DroneStatusComponent.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/DroneStatusComponent.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DroneStatusComponent.vue?vue&type=template&id=90101b44& */ "./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44&");
+/* harmony import */ var _DroneStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DroneStatusComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DroneStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/DroneStatusComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DroneStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DroneStatusComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DroneStatusComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DroneStatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44& ***!
+  \*****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./DroneStatusComponent.vue?vue&type=template&id=90101b44& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DroneStatusComponent.vue?vue&type=template&id=90101b44&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DroneStatusComponent_vue_vue_type_template_id_90101b44___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -59568,14 +59863,15 @@ window.Echo.channel('home').listen('NewMessage2', function (e) {
 /*!*****************************************************!*\
   !*** ./resources/js/components/StatusComponent.vue ***!
   \*****************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _StatusComponent_vue_vue_type_template_id_08ccbc10___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StatusComponent.vue?vue&type=template&id=08ccbc10& */ "./resources/js/components/StatusComponent.vue?vue&type=template&id=08ccbc10&");
 /* harmony import */ var _StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StatusComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/StatusComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -59605,13 +59901,15 @@ component.options.__file = "resources/js/components/StatusComponent.vue"
 /*!******************************************************************************!*\
   !*** ./resources/js/components/StatusComponent.vue?vue&type=script&lang=js& ***!
   \******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StatusComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

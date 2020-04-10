@@ -2,10 +2,29 @@
 
 @section('content')
 <div class="container">
+<div class="box">
+
+<form id="signup-form" @submit.prevent="processForm">
+@foreach ($drones as $drone)
+<php>
+{!! Form::select('drone') !!}
+  <div class="field">
+    <label class="label">#{{$drone->id}} , {{$drone->airframe}}</label>
+    <input type="checkbox" class="input" name="id" v-model="id">
+    </div>
+@endforeach
+  <div class="field has-text-right">
+    <button type="submit" class="button is-danger">Submit</button>
+  </div>
+</form>
+</div>
     <!-- upper row -->
     <div class="row justify-content-center">
         <!-- left col -->
         <div class="col-auto">
+        <button onclick="myFunction()" >try me</button>
+        <p id="demo"></p>
+        <a id="map-view" href="/mapTest">
             <div class="card">
             <div class="card_image">
                     <img src="https://media.giphy.com/media/3ohhwgrL4KKPIZoTQY/giphy.gif" />
@@ -14,6 +33,7 @@
                     <p>Map View</p>
                 </div>
             </div>
+        </a>
         <!-- end of left -->
         </div>
         <!-- center col -->
@@ -98,3 +118,16 @@ window.onload = function() {
 };
 </script>
 @endsection
+
+@push('scripts')
+<script>
+    function myFunction() {
+        var person = prompt("Please enter your name", "Harry Potter");
+        if (person != null) {
+                document.getElementById("demo").innerHTML =
+                "Hello " + person + "! How are you today?";
+                axios.get("/mapTest");
+        }
+    }
+</script>
+@endpush

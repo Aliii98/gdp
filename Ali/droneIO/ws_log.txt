@@ -1,0 +1,2 @@
+[32mStarting the WebSocket server on port 6001...[39m
+^C^C

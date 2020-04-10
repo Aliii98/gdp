@@ -39,6 +39,6 @@ class User extends Authenticatable
 
     public function drones()
     {
-        return $this->hasMany(Drone::class);
+        return $this->hasMany(Drone::class, 'deployed_by');
     }
 }

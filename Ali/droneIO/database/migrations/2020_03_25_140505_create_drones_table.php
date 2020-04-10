@@ -14,9 +14,11 @@ class CreateDronesTable extends Migration
     public function up()
     {
         Schema::create('drones', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('status');
+            $table->increments('id');
             $table->timestamps();
+            $table->string('airframe');
+            $table->integer('deployed_by')->unsigned();
+            $table->foreign('deployed_by')->references('id')->on('users');
         });
     }
 

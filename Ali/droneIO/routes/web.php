@@ -1,6 +1,7 @@
 <?php
  use App\Events\NewMessage;
  use App\Events\GetStatus;
+ use App\Drone;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,25 +14,20 @@
 */
 
 Route::get('/', function () {
-    //broadcast(new NewMessage('message'));
-    return view('welcome');
+    $drones = Drone::all();
+    return view('home')->with('drones' , $drones);
 });
 
 Auth::routes();
-
+Route::get('/mapTest', function(){
+    return view('map');
+});
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/getStatus', function() {
-    return view('status', ['res' => 'status yay']);
-});
-Route::get('/status', 'DroneController@index');
-Route::get('/fetchStatus', 'DroneController@fetchStatus');
-Route::post('/sendStatus', 'WebSocketController@sendStatus');
-Route::get('/getStatusTest', 'WebSocketController@getStatus');
-Route::get('/getEvents', 'TestController@eventsFunc');
-Route::get('/pusher', function(){
-    return view('wsTest');
-});
-
+Route::get('/status', 'DronesController@index');
+Route::get('drones/getNewId', 'DronesController@getNewId');
+Route::get('/fetchStatus', 'DronesController@fetchStatus');
+Route::resource('drones', 'DronesController');
+Route::get('drones/{droneID}/fetchStatusDrone', 'DronesController@fetchStatusDrone');
 // PUSHER_APP_ID=961713
 // PUSHER_APP_KEY=678f6efe1ac1e203bb90
 // PUSHER_APP_SECRET=163bd9b969d75879b039

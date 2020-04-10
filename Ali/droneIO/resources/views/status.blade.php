@@ -2,8 +2,17 @@
 
 @section('content')
 <div class="container">
-    <h1> STATUS IS HERE ::: </h1>
-    <status></status>
+    <!-- <h1> STATUS IS HERE ::: </h1> -->
+    <!-- <status></status> -->
+    <dronestatus></dronestatus>
+    <!-- <form action="action" method="get" id="getDrone">
+        Enter ID:
+        <input type="text" id="id">
+        <input type="submit" value="Get Status..!">
+    </form> -->
+    <!-- @foreach($drones as $drone)
+    <small> {{$drone}} </small>
+    @endforeach -->
 </div>
 
 <!-- <div class="media" style="margin-top:20px;" v-for="status in statuss">
@@ -21,6 +30,15 @@
     </div> -->
 @endsection
 
+<!-- @section('scripts')
+<script type="text/javascript">
+    $('#id').change(function () {
+        console.log('hiiii');
+        $('#getDrone').attr('action', 'drones/' + $('#id').val() + '/fetchStatusDrone');
+        id = $('#id').val();
+    });
+</script>
+@endsection -->
 <!-- @section('scripts')
   <script>
     const app = new Vue({

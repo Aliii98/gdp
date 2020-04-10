@@ -37,16 +37,28 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'myKey',
     wsHost: window.location.hostname,
+    // wsHost: '65582ce4.ngrok.io',
     wsPort: 6001,
 });
 
-window.Echo.channel('home').listen('NewMessage', (e) => {
-    console.log(e);
+// window.Echo.channel('home').listen('NewMessage', (e) => {
+//     console.log(e);
+// });
+window.Echo.channel('home').listen('NewMessage2', (res) => {
+    console.log(res);
+    console.log(res.header);
+    if (res.header == 'register'){
+        axios.get('drones/getNewId');
+        axios.post('drones', res);
+    }
+    // axios.post('drones', e);
 });
-window.Echo.channel('home').listen('NewMessage2', (e) => {
-    console.log(e);
-});
-// window.Echo.channel('home').listen('client-RcvEvent', (e) => {
+
+// var callback = function(eventName, data) {
+//     console.log(`bind global: The event ${eventName} was triggered with data ${JSON.stringify(data)}`);
+//   };
+  //bind to all events on the connection
+// window.Echo.bind_global(callback);// window.Echo.channel('home').listen('client-RcvEvent', (e) => {
 //     console.log('Client Event Received...');
 //     console.log(e);
 // });
