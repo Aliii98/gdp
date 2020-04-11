@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Drone;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $drones = Drone::all();
+        return view('home')->with('drones' , $drones);
+    }
+    public function test()
+    {
+        $drones = Drone::all();
+        return view('test')->with('drones' , $drones);
     }
 }

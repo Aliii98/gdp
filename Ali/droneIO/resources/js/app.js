@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-
+// require('select2');
 window.Vue = require('vue');
 
 /**
@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('status', require('./components/StatusComponent.vue').default);
 Vue.component('dronestatus', require('./components/DroneStatusComponent.vue').default);
+Vue.component('droneselect', require('./components/MultiSelectFormComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

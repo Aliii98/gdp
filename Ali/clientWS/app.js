@@ -18,8 +18,8 @@ const pusher_js = new PusherJS('myKey', {
     wsPort: 6001,
   });
 //var id;
-var deployed_by = 3;
-var airframe = "Hexa-Rotor";
+var deployed_by = 1;
+var airframe = "Quad-Rotor";
 newDrone();
 // droneDeployed(55);
 

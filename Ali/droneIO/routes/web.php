@@ -1,7 +1,6 @@
 <?php
  use App\Events\NewMessage;
  use App\Events\GetStatus;
- use App\Drone;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +13,7 @@
 */
 
 Route::get('/', function () {
-    $drones = Drone::all();
-    return view('home')->with('drones' , $drones);
+    return view('welcome');
 });
 
 Auth::routes();
@@ -23,6 +21,7 @@ Route::get('/mapTest', function(){
     return view('map');
 });
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/test', 'HomeController@test');
 Route::get('/status', 'DronesController@index');
 Route::get('drones/getNewId', 'DronesController@getNewId');
 Route::get('/fetchStatus', 'DronesController@fetchStatus');
