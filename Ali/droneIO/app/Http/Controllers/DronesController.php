@@ -18,22 +18,19 @@ class DronesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getStatus($droneID)
     {   
         $drones = Drone::all();
-        return view('status')->with('drones' , $drones);
-    }
-    
-    public function fetchStatus()
-    {
-        //return Drone::with('user')->get();
-       broadcast(new NewMessage('get-status'));
+        return view('status')->with('drones', $droneID);
     }
 
     public function getNewId()
     {   
         $count = Drone::count();
         $id = $count + 1;
+        // dd($id);
+        // dump($id);
+        // echo($id);
         broadcast(new NewMessage($id));
         // broadcast(new NewMessage($count+2));
     }
@@ -66,30 +63,16 @@ class DronesController extends Controller
         //     'airframe' => 'required',
         //     'status' => 'required',
         // ]);
-        //file_put_contents('debug.txt', $drone->status);
         try{
             $drone = new Drone;
             $drone->airframe = $request->input('airframe');
             $drone->deployed_by = $request->input('deployed_by');
-            //$drone->status = $request->input('status');
-            // $drone->airfame = 'airframe';
-            // $drone->deployed_by = 'deployed_by';
-            // $drone->status = 'status';
-            //$drone->id = 52;
-            // $drone->created_at = '';
-            // $drone->updated_at = '';
-            //broadcast(new NewMessage('2222'));
-
             $drone->save();
-            //broadcast(new NewMessage('3333'));
-
+            $count = Drone::count();
+            broadcast(new NewMessage($count));
         } catch(Exception $e){
             echo $e->getMessage();
-            file_put_contents('debug.txt', 'ERRORRRRR!!!!!!!!');
         }
-        // return view('events');
-        // file_put_contents('debug.txt', $request, FILE_APPEND);
-        // file_put_contents('debug.txt', $request);
     }
 
 

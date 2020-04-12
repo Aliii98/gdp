@@ -127,7 +127,7 @@ export default {
       var selected = this.value[0].code;
       for(var i in this.value){
         if (this.value.length > 1 && selected != this.value[i].code){
-        selected = selected + '?' + this.value[i].code;
+        selected = selected + '+' + this.value[i].code;
         }
       }
         window.location.href = 'status/' + selected;

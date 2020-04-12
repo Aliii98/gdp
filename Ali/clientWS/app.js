@@ -17,28 +17,28 @@ const pusher_js = new PusherJS('myKey', {
     wsHost: 'localhost',
     wsPort: 6001,
   });
-//var id;
-var deployed_by = 1;
-var airframe = "Quad-Rotor";
-newDrone();
-// droneDeployed(55);
+// var deployed_by = 2;
+// var airframe = "Quad-V";
+// newDrone();
+droneDeployed(10);
 
 
 function droneDeployed(id){
     channelName = `drone.${id}`;
     channel = pusher_js.subscribe(channelName);
-    console.log(`Subscribed to channel: ${channelName}`);
+    // console.log(`Subscribed to channel: ${channelName}`);
     channel.bind('App\\Events\\NewDrone',function(data){
         var msg = Object.values(data);
-        console.log(`Received Message on channel ${channelName}: `)
+        // console.log(`Received Message on channel ${channelName}: `)
         console.log(data);
         if (data.msg == 'get-status'){
-            fetchStatus(id);
+            setTimeout(fetchStatus, 1000, id);
+            // fetchStatus(id);
         }
     });
 }
 function fetchStatus(id){
-    console.log('Fetching Status Now');
+    // console.log('Fetching Status Now');
     // for(var i = 0; i < 5; i++){
         pusher.trigger(channelName, 'App\\Events\\Status', {
             droneID: id,

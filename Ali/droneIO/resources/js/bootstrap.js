@@ -45,10 +45,10 @@ window.Echo = new Echo({
 //     console.log(e);
 // });
 window.Echo.channel('home').listen('NewMessage2', (res) => {
-    console.log(res);
-    console.log(res.header);
+    // console.log(res);
+    // console.log(res.header);
     if (res.header == 'register'){
-        axios.get('drones/getNewId');
+        //axios.get('drones/getNewId');
         axios.post('drones', res);
     }
     // axios.post('drones', e);

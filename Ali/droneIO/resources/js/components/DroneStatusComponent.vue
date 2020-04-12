@@ -6,6 +6,7 @@
 <div class="container">
 
   <h1 class="title has-text-centered">Vue.js Form Processing</h1>
+  
   <div class="box">
 
     <form id="signup-form" @submit.prevent="processForm">
@@ -18,6 +19,9 @@
       </div>
     </form>
   </div>
+  {{this.messages}}
+  {{this.drones}}
+  <!-- <button V-on:click="processForm()" >try me</button> -->
     <p class="p-2" v-for="message in messages">
     ID : {{ message.droneID }}
     <br>
@@ -39,31 +43,43 @@
 
 <script>
 export default {
-    
+  
+  props: ['drones'],
+
   data() {
     return {
         id: '',
         messages: {},
     }
   },
+  mounted: function(){
+    this.$nextTick(function (){
+      this.processForm();
+      this.listen();
+    });
+  },
 
   methods: {
     processForm: function() {
         // console.log({ name: this.name, email: this.email });
         // alert('name=name/' + this.name + '/email/' + this.email);
-        var url = 'drones/' + this.id + '/fetchStatusDrone';
+        var url = 'drones/' + this.drones + '/fetchStatusDrone';
         console.log(url);
         axios.get(url);
-        this.listen();
+        // this.listen();
         },
     listen: function(){
-        Echo.channel(`drone.${this.id}`)
+        Echo.channel(`drone.${this.drones}`)
                 .listen('Status',(event) => {
-                    //this.messages.push(event);
                     this.$set(this.messages, 'droneID', event);
                     console.log(event);
                 });
         }
-  }
+  },
+  // created(){
+  //   this.listen(this.drones);
+  //   var url = 'drones/' + this.drones + '/fetchStatusDrone';
+  //   axios.get(url);
+  // }
 }
 </script>

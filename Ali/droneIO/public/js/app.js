@@ -1947,33 +1947,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['drones'],
   data: function data() {
     return {
       id: '',
       messages: {}
     };
   },
+  mounted: function mounted() {
+    this.$nextTick(function () {
+      this.processForm();
+      this.listen();
+    });
+  },
   methods: {
     processForm: function processForm() {
       // console.log({ name: this.name, email: this.email });
       // alert('name=name/' + this.name + '/email/' + this.email);
-      var url = 'drones/' + this.id + '/fetchStatusDrone';
+      var url = 'drones/' + this.drones + '/fetchStatusDrone';
       console.log(url);
-      axios.get(url);
-      this.listen();
+      axios.get(url); // this.listen();
     },
     listen: function listen() {
       var _this = this;
 
-      Echo.channel("drone.".concat(this.id)).listen('Status', function (event) {
-        //this.messages.push(event);
+      Echo.channel("drone.".concat(this.drones)).listen('Status', function (event) {
         _this.$set(_this.messages, 'droneID', event);
 
         console.log(event);
       });
     }
-  }
+  } // created(){
+  //   this.listen(this.drones);
+  //   var url = 'drones/' + this.drones + '/fetchStatusDrone';
+  //   axios.get(url);
+  // }
+
 });
 
 /***/ }),
@@ -2120,7 +2134,7 @@ __webpack_require__.r(__webpack_exports__);
 
         for (var i in this.value) {
           if (this.value.length > 1 && selected != this.value[i].code) {
-            selected = selected + '?' + this.value[i].code;
+            selected = selected + '+' + this.value[i].code;
           }
         }
 
@@ -48191,6 +48205,13 @@ var render = function() {
               ]
             )
           ]),
+          _vm._v(
+            "\n  " +
+              _vm._s(this.messages) +
+              "\n  " +
+              _vm._s(this.drones) +
+              "\n  "
+          ),
           _vm._v(" "),
           _vm._l(_vm.messages, function(message) {
             return _c("p", { staticClass: "p-2" }, [
@@ -60787,11 +60808,10 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 // });
 
 window.Echo.channel('home').listen('NewMessage2', function (res) {
-  console.log(res);
-  console.log(res.header);
-
+  // console.log(res);
+  // console.log(res.header);
   if (res.header == 'register') {
-    axios.get('drones/getNewId');
+    //axios.get('drones/getNewId');
     axios.post('drones', res);
   } // axios.post('drones', e);
 
