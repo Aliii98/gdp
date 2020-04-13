@@ -2,6 +2,6 @@
 
 @section('content')
 <div class="container">
-    <dronestatus v-bind:drones="{{$drones}}"></dronestatus>
+    <dronestatus></dronestatus>
 </div>
 @endsection

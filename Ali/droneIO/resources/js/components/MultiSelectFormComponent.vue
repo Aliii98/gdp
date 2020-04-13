@@ -80,6 +80,7 @@
         </div>
         <!-- right col -->
         <div class="col-auto">
+                      <a id="map-view" href="/test">
             <div class="card">
             <div class="card_image">
                 <!-- <img class="static" src="https://i.ibb.co/d6s1Xcr/Screenshot-2020-03-27-at-13-08-38.png" > -->
@@ -89,6 +90,7 @@
                     <p>Manual Takeover</p>
                 </div>
             </div>
+                        </a>
         <!-- end of right -->
         </div>
     <!-- END OF LOWER ROW -->
@@ -108,7 +110,12 @@ export default {
       var drone = {
         name: this.drones[i].airframe,
         code: this.drones[i].id,
+        status: this.drones[i].status,
+        $isDisabled: false
       }
+      if(drone.status == 'offline'){
+        drone.$isDisabled = true;
+      } 
       this.options.push(drone);
     }
   },
@@ -127,10 +134,10 @@ export default {
       var selected = this.value[0].code;
       for(var i in this.value){
         if (this.value.length > 1 && selected != this.value[i].code){
-        selected = selected + '+' + this.value[i].code;
+        selected = selected + '&' + this.value[i].code;
         }
       }
-        window.location.href = 'status/' + selected;
+        window.location.href = 'status/drones&' + selected;
       }
       else {
         alert('Please Select Drone First..')

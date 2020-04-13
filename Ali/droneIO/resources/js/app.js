@@ -28,7 +28,14 @@ Vue.component('droneselect', require('./components/MultiSelectFormComponent.vue'
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import Vuesax from 'vuesax'
 
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+import 'material-icons/iconfont/material-icons.css';
+
+Vue.use(Vuesax, {
+  // options here
+})
 const app = new Vue({
     el: '#app',
 });

@@ -19,6 +19,7 @@ class CreateDronesTable extends Migration
             $table->string('airframe');
             $table->integer('deployed_by')->unsigned();
             $table->foreign('deployed_by')->references('id')->on('users');
+            $table->string('status')->nullable();
         });
     }
 

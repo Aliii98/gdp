@@ -1,6 +1,8 @@
 var PusherJS = require('pusher-js');
 var Pusher = require('pusher');
-
+const process = require('process');
+const readline = require('readline');
+const async = require('async-kit');
 var pusher = new Pusher({
     appId: 'myId',
     key: 'myKey',
@@ -17,30 +19,35 @@ const pusher_js = new PusherJS('myKey', {
     wsHost: 'localhost',
     wsPort: 6001,
   });
+var droneID=2;
+droneDeployed(droneID);
 // var deployed_by = 2;
-// var airframe = "Quad-V";
+// var airframe = "Quad-Copter";
 // newDrone();
-droneDeployed(10);
-
 
 function droneDeployed(id){
+    var channelName = 'home';
+    pusher.trigger(channelName, 'App\\Events\\NewMessage2', {
+        header: "online",
+        id: id,
+    });
     channelName = `drone.${id}`;
     channel = pusher_js.subscribe(channelName);
-    // console.log(`Subscribed to channel: ${channelName}`);
+    console.log(`Subscribed to channel: ${channelName}`);
     channel.bind('App\\Events\\NewDrone',function(data){
         var msg = Object.values(data);
-        // console.log(`Received Message on channel ${channelName}: `)
+        console.log(`Received Message on channel ${channelName}: `)
         console.log(data);
         if (data.msg == 'get-status'){
-            setTimeout(fetchStatus, 1000, id);
+            setTimeout(fetchStatus, 500, id);
             // fetchStatus(id);
         }
     });
 }
 function fetchStatus(id){
-    // console.log('Fetching Status Now');
+    console.log('Fetching Status Now');
     // for(var i = 0; i < 5; i++){
-        pusher.trigger(channelName, 'App\\Events\\Status', {
+        pusher.trigger(`drone.${id}`, 'App\\Events\\Status', {
             droneID: id,
             numMotors: "4",
             batteryVolts: "12.2V",
@@ -60,7 +67,8 @@ function registerDrone(){
         pusher.trigger('home', 'App\\Events\\NewMessage2', {
             header: "register",
             airframe: airframe,
-            deployed_by: deployed_by
+            deployed_by: deployed_by,
+            is_online: true
         });
 }
 
@@ -78,11 +86,32 @@ function bindChannel(channel, channelName){
         var msg = Object.values(data);
         console.log(`Received Message on channel ${channelName}: `)
         console.log(msg);
-        var id = msg;
+        droneID = msg;
         channel.unbind();
         channel.unsubscribe(channelName);
-        droneDeployed(id);
+        droneDeployed(droneID);
     });
-    // setTimeout(registerDrone, 600);
     registerDrone();
 }
+
+function disconnect(id){
+    var channelName = 'home';
+    pusher.trigger(channelName, 'App\\Events\\NewMessage2', {
+        header: "offline",
+        id: id,
+    });
+}
+
+// Using a single function to handle multiple signals
+function handle(signal) {
+  async.exit( 5 , 600 ) ;
+}
+
+process.on('SIGINT', handle);
+process.on( 'asyncExit' , function( code , timeout , callback ) {
+    console.log( `\nDisconnecting Drone #${droneID}` );
+    setTimeout( function() {
+        disconnect(droneID);
+    }, 300 );
+    console.log('Goodbye..');
+});

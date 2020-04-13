@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Drone;
+use Auth;
+use App\Events\NewDrone;
 
 class HomeController extends Controller
 {
@@ -24,12 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $drones = Drone::all();
+        $drones = Drone::where('deployed_by', Auth::user()->id)->get();
         return view('home')->with('drones' , $drones);
     }
     public function test()
     {
-        $drones = Drone::all();
-        return view('test')->with('drones' , $drones);
+        return view('test');
+        // return view('test', ['drone' => $droneID]);
+    }
+    public function manualControl($droneID,$direction)
+    {
+        event(new NewDrone($droneID, $direction));
     }
 }

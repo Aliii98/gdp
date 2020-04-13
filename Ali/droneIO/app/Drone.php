@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Drone extends Model
 {
     protected $fillable = [
-        'airframe', 'deployed_by',
+        'airframe', 'deployed_by', 'status',
     ];
 
     public function user()

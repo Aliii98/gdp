@@ -1,28 +1,10 @@
 <template>
-  <!-- @submit handles any form of submission. -->
-  <!-- .prevent keeps the event from bubbling around and doing anything else. -->
-  <div class="hero is-fullheight is-info is-bold">
-<div class="hero-body">
 <div class="container">
-
-  <h1 class="title has-text-centered">Vue.js Form Processing</h1>
-  
-  <div class="box">
-
-    <form id="signup-form" @submit.prevent="processForm">
-      <div class="field">
-        <label class="label">ID</label>
-        <input type="text" class="input" name="id" v-model="id">
-        </div>
-      <div class="field has-text-right">
-        <button type="submit" class="button is-danger">Submit</button>
-      </div>
-    </form>
-  </div>
-  {{this.messages}}
-  {{this.drones}}
-  <!-- <button V-on:click="processForm()" >try me</button> -->
-    <p class="p-2" v-for="message in messages">
+  <h1 class="title has-text-centered">Status</h1>
+<!-- <div class="row justify-content-center">
+  <div class="col-auto"> -->
+    <div class="box" v-for="message in messages">
+      <br>
     ID : {{ message.droneID }}
     <br>
     Number of Motors : {{ message.numMotors }}
@@ -34,52 +16,56 @@
     Mission Started By : {{ message.missionStartedBy }}
     <br>
     Mission Started At : {{ message.missionStartedAt }}
-
-    </p>
-</div>
-</div>
-</div>
+    <br>
+    </div>
+  </div>
+<!-- </div>
+</div> -->
 </template>
 
 <script>
 export default {
-  
-  props: ['drones'],
-
   data() {
     return {
-        id: '',
-        messages: {},
+        messages: [],
     }
   },
   mounted: function(){
     this.$nextTick(function (){
-      this.processForm();
-      this.listen();
+      var drones = this.getSelected();
+      console.log(drones);
+      for (var i in drones){
+        this.processForm(drones[i]);
+        this.listen(drones[i]);
+      }
+      //   this.processForm(drones.pop());
+      //   this.listen(drones.pop());
     });
   },
 
   methods: {
-    processForm: function() {
-        // console.log({ name: this.name, email: this.email });
-        // alert('name=name/' + this.name + '/email/' + this.email);
-        var url = 'drones/' + this.drones + '/fetchStatusDrone';
-        console.log(url);
+    processForm: function(id) {
+        var url = 'drones/' + id + '/fetchStatusDrone';
         axios.get(url);
-        // this.listen();
         },
-    listen: function(){
-        Echo.channel(`drone.${this.drones}`)
+    listen: function(id){
+        Echo.channel(`drone.${id}`)
                 .listen('Status',(event) => {
-                    this.$set(this.messages, 'droneID', event);
+                    // this.$set(this.messages, 'droneID', event);
+                    this.messages.push(event)
                     console.log(event);
                 });
-        }
+        },
+    getSelected: function(){
+        let uri = window.location.href.split('&');
+        var drones = [];
+          uri.forEach(function(value,index){
+            if (index > 0){
+              drones.push(uri[index])
+            }
+        });
+        return drones;
+      }
   },
-  // created(){
-  //   this.listen(this.drones);
-  //   var url = 'drones/' + this.drones + '/fetchStatusDrone';
-  //   axios.get(url);
-  // }
 }
 </script>

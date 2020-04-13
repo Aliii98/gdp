@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Drone;
 use App\Events\NewMessage;
@@ -28,11 +29,7 @@ class DronesController extends Controller
     {   
         $count = Drone::count();
         $id = $count + 1;
-        // dd($id);
-        // dump($id);
-        // echo($id);
         broadcast(new NewMessage($id));
-        // broadcast(new NewMessage($count+2));
     }
 
     public function fetchStatusDrone($droneID)
@@ -119,5 +116,15 @@ class DronesController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function goOnline($droneID){
+        $drone = Drone::where('id', $droneID)->first();
+        $drone->status = 'online'; //true
+        $drone->save();
+    }
+    public function goOffline($droneID){
+        $drone = Drone::where('id', $droneID)->first();
+        $drone->status = 'offline'; //false
+        $drone->save();
     }
 }

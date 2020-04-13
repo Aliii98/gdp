@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <droneselect v-bind:drones="{{$drones}}"></droneselect>
-
+<status></status>
 @endsection
 @section('headscripts')
 <script>

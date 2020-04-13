@@ -30,7 +30,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import Echo from 'laravel-echo';
-
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
@@ -45,14 +44,22 @@ window.Echo = new Echo({
 //     console.log(e);
 // });
 window.Echo.channel('home').listen('NewMessage2', (res) => {
-    // console.log(res);
-    // console.log(res.header);
+    console.log(res);
     if (res.header == 'register'){
-        //axios.get('drones/getNewId');
         axios.post('drones', res);
     }
-    // axios.post('drones', e);
+    else if (res.header == 'online'){
+        axios.post(`/drones/${res.id}/online`);
+    }
+    else if (res.header == 'offline'){
+        axios.post(`/drones/${res.id}/offline`, res);
+    }
 });
+// window.Echo.channel('home').listen('NewMessage2', (res) => {
+//     if (res.header == 'register'){
+//         axios.post('drones', res);
+//     }
+// });
 
 // var callback = function(eventName, data) {
 //     console.log(`bind global: The event ${eventName} was triggered with data ${JSON.stringify(data)}`);
