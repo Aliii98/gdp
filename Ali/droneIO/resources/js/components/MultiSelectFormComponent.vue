@@ -11,7 +11,7 @@
         <div class="col-auto">
 <!-- <button onclick="myFunction()" >try me</button>
 <p id="demo"></p> -->
-        <a id="map-view" href="/mapTest">
+        <a id="get-status" v-on:click="map">
             <div class="card">
             <div class="card_image">
                     <img src="https://media.giphy.com/media/3ohhwgrL4KKPIZoTQY/giphy.gif" />
@@ -80,7 +80,7 @@
         </div>
         <!-- right col -->
         <div class="col-auto">
-                      <a id="map-view" href="/test">
+                      <a id="map-view" href="/takeover">
             <div class="card">
             <div class="card_image">
                 <!-- <img class="static" src="https://i.ibb.co/d6s1Xcr/Screenshot-2020-03-27-at-13-08-38.png" > -->
@@ -138,6 +138,20 @@ export default {
         }
       }
         window.location.href = 'status/drones&' + selected;
+      }
+      else {
+        alert('Please Select Drone First..')
+      }
+    },
+    map: function(){
+    if (this.value.length != 0){
+      var selected = this.value[0].code;
+      for(var i in this.value){
+        if (this.value.length > 1 && selected != this.value[i].code){
+        selected = selected + '&' + this.value[i].code;
+        }
+      }
+        window.location.href = 'map/drones&' + selected;
       }
       else {
         alert('Please Select Drone First..')

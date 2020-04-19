@@ -14,16 +14,17 @@ var pusher = new Pusher({
     //encryptionMasterKey: ENCRYPTION_MASTER_KEY, // a 32 character long key used to derive secrets for end to end encryption (see below!)
 });
 
-const pusher_js = new PusherJS('myKey', {
-    cluster: 'eu',
-    wsHost: 'localhost',
-    wsPort: 6001,
-  });
-var droneID=2;
-droneDeployed(droneID);
+// const pusher_js = new PusherJS('myKey', {
+//     cluster: 'eu',
+//     wsHost: 'localhost',
+//     wsPort: 6001,
+//   });
+// var droneID=1;
+// droneDeployed(droneID);
 // var deployed_by = 2;
 // var airframe = "Quad-Copter";
 // newDrone();
+fetchStatus(1);
 
 function droneDeployed(id){
     var channelName = 'home';
@@ -46,20 +47,18 @@ function droneDeployed(id){
 }
 function fetchStatus(id){
     console.log('Fetching Status Now');
-    // for(var i = 0; i < 5; i++){
         pusher.trigger(`drone.${id}`, 'App\\Events\\Status', {
             droneID: id,
             numMotors: "4",
             batteryVolts: "12.2V",
-            location: [{
-                long: "37.863567",
-                lat: "44.53684"
-            }],
+            location: {
+                lat: 51.909549 + (id * 0.01),
+                lng: -1.854928 + (id * 0.001),
+            },
             missionStartedBy: "Ali",
             missionStartedAt: "16:22",
             status: "En-Route",
         });
-    // }
 }
 
 function registerDrone(){

@@ -1,6 +1,9 @@
 <?php
  use App\Events\NewMessage;
  use App\Events\GetStatus;
+//  use Auth;
+ use App\Drone;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,10 +20,16 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/mapTest', function(){
-    return view('map');
+Route::get('/map/{droneID}', function(){
+    $drones = Drone::where('deployed_by', Auth::user()->id)->get();
+    // return view('map')->with('lat' , 53.807545);
+    return view('map', [
+        'lat' => 53.807545,
+        'lng' => -1.550576,
+    ]);
 });
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/takeover', 'HomeController@takeover');
 Route::get('/test', 'HomeController@test');
 Route::get('/test/{droneID}/{direction}', 'HomeController@manualControl');
 Route::get('/status/{droneID}', 'DronesController@getStatus');

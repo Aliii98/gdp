@@ -11,7 +11,7 @@
     <br>
     Battery Voltage : {{ message.batteryVolts }}
     <br>
-    Location : {{ message.location[0].long}}, {{ message.location[0].lat}}
+    Location : {{ message.location.lat}}, {{ message.location.lng}}
     <br>
     Mission Started By : {{ message.missionStartedBy }}
     <br>
@@ -38,8 +38,6 @@ export default {
         this.processForm(drones[i]);
         this.listen(drones[i]);
       }
-      //   this.processForm(drones.pop());
-      //   this.listen(drones.pop());
     });
   },
 
@@ -54,6 +52,7 @@ export default {
                     // this.$set(this.messages, 'droneID', event);
                     this.messages.push(event)
                     console.log(event);
+                    // console.log(this.messages);
                 });
         },
     getSelected: function(){

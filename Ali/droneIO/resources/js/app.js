@@ -22,6 +22,10 @@ window.Vue = require('vue');
 Vue.component('status', require('./components/StatusComponent.vue').default);
 Vue.component('dronestatus', require('./components/DroneStatusComponent.vue').default);
 Vue.component('droneselect', require('./components/MultiSelectFormComponent.vue').default);
+Vue.component('drone-map', require('./components/MapComponent.vue').default);
+Vue.component('test', require('./components/TestComponent.vue').default);
+Vue.component('map-marker', require('./components/MapMarkerComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

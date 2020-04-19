@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<status></status>
+<test></test>
 @endsection
 @section('headscripts')
-<script>
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJdIEzZHJI_CsVxC62OfSDbCLkZYwXKi0">
 </script>
 @endsection

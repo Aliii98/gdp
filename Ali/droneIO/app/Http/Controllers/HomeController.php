@@ -29,13 +29,17 @@ class HomeController extends Controller
         $drones = Drone::where('deployed_by', Auth::user()->id)->get();
         return view('home')->with('drones' , $drones);
     }
-    public function test()
+    public function takeover()
     {
-        return view('test');
+        return view('takeover');
         // return view('test', ['drone' => $droneID]);
     }
     public function manualControl($droneID,$direction)
     {
         event(new NewDrone($droneID, $direction));
+    }
+    public function test()
+    {
+        return view('test');
     }
 }

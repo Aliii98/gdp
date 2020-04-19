@@ -78,6 +78,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('bodyscripts')
 </body>
-@stack('scripts')
 </html>
