@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Drone;
+use App\Mission;
+use App\Waypoint;
 use App\Events\NewMessage;
 use App\Events\NewDrone;
+
 class DronesController extends Controller
 {
 
@@ -32,9 +35,23 @@ class DronesController extends Controller
         broadcast(new NewMessage($id));
     }
 
+    public function sendJourney(Request $request)
+    {   
+        // dump($request);
+        // event(new NewDrone($request->input('drone_id')));
+    }
+
     public function fetchStatusDrone($droneID)
     {   
-        event(new NewDrone($droneID, "get-status"));
+        event(new NewDrone($droneID, 'get-status' ,"get-status"));
+    }
+    public function startSendingStatus($droneID)
+    {   
+        event(new NewDrone($droneID, 'start-status' ,"start-status"));
+    }
+    public function stopSendingStatus($droneID)
+    {   
+        event(new NewDrone($droneID, 'stop-status' ,"stop-status"));
     }
 
     /**
@@ -71,7 +88,52 @@ class DronesController extends Controller
             echo $e->getMessage();
         }
     }
+    public function storeMission(Request $request){
+        try{
+            $mission = new Mission;
+            $mission->drone_id = $request->input('drone_id');
+            $mission->start_lat = $request->input('start_lat');
+            $mission->start_lng = $request->input('start_lng');
+            $mission->end_lat = $request->input('end_lat');
+            $mission->end_lng = $request->input('end_lng');
+            $mission->completion_time = $request->input('completion_time');
+            // dd($mission->getAttributes());
+            $mission->save();
+            
+            // $journey->drone_id = $request->input('drone_id');
+            $obj = new \stdClass();
+            $obj->header = 'Mission';
+            $obj->start_lat = $request->input('start_lat');
+            $obj->start_lng = $request->input('start_lng');
+            $obj->end_lat = $request->input('end_lat');
+            $obj->end_lng = $request->input('end_lng');
+            $obj->completion_time = $request->input('completion_time');
+            event(new NewDrone($request->input('drone_id'), 'new-mission', json_encode($obj)));
+            
+        } catch(Exception $e){
+            echo $e->getMessage();
+        }
+    }
 
+    public function storeWaypoints(Request $request){
+        try{
+            $waypoint = new Waypoint;
+            $waypoint->mission_id = $request->input('mission_id');
+            $waypoint->lat = $request->input('lat');
+            $waypoint->lng = $request->input('lng');
+            $waypoint->save();
+
+            $obj = new \stdClass();
+            $obj->header = 'Waypoint';
+            $obj->drone_id = $request->input('drone_id');
+            $obj->mission_id = $request->input('mission_id');
+            $obj->lat = $request->input('lat');
+            $obj->lng = $request->input('lng');
+            event(new NewDrone($request->input('drone_id'), 'waypoint', json_encode($obj)));
+        } catch(Exception $e){
+            echo $e->getMessage();
+        }
+    }
 
     /**
      * Display the specified resource.

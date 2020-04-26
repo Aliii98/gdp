@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <droneselect v-bind:drones="{{$drones}}"></droneselect>
+    @role('Super-Admin')
+        <droneselect v-bind:drones="{{$drones}}" role="Super-Admin"></droneselect>
+    @endcan
+
+    @role('Admin')
+        <droneselect v-bind:drones="{{$drones}}" role="Admin"></droneselect>
+    @endcan
+
+    @role('Public-User')
+        <droneselect v-bind:drones="{{$drones}}" role="Public-User"></droneselect>
+    @endcan
 
 @endsection
 @section('headscripts')

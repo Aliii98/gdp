@@ -1,8 +1,10 @@
 var PusherJS = require('pusher-js');
 var Pusher = require('pusher');
+var Promise = require("bluebird");
 const process = require('process');
 const readline = require('readline');
 const async = require('async-kit');
+var counter = 0;
 var pusher = new Pusher({
     appId: 'myId',
     key: 'myKey',
@@ -14,18 +16,40 @@ var pusher = new Pusher({
     //encryptionMasterKey: ENCRYPTION_MASTER_KEY, // a 32 character long key used to derive secrets for end to end encryption (see below!)
 });
 
-// const pusher_js = new PusherJS('myKey', {
-//     cluster: 'eu',
-//     wsHost: 'localhost',
-//     wsPort: 6001,
-//   });
-// var droneID=1;
+const pusher_js = new PusherJS('myKey', {
+    cluster: 'eu',
+    wsHost: 'localhost',
+    wsPort: 6001,
+  });
+var droneID=6;
+droneDeployed(droneID);
+// var droneID=9;
 // droneDeployed(droneID);
-// var deployed_by = 2;
-// var airframe = "Quad-Copter";
+// var droneID=8;
+// droneDeployed(droneID);
+// var deployed_by = 1;
+// var airframe = "Quad+";
 // newDrone();
-fetchStatus(1);
-
+// fetchStatus(1);
+var hdr;
+var status = {
+    droneID: droneID,
+    batteryVolts: 12.20,
+    location: {
+        lat: 51.909549,
+        lng: -1.854928,
+        alt: null,
+    },
+    status: "En-Route",
+    roll: 1.2,
+    yaw: 2.2,
+    pitch: 0.3,
+    direction: 'N',
+    speed: 10,
+    numMotors: "4",
+    missionStartedBy: "Ali",
+    missionStartedAt: "16:22",
+};
 function droneDeployed(id){
     var channelName = 'home';
     pusher.trigger(channelName, 'App\\Events\\NewMessage2', {
@@ -36,29 +60,65 @@ function droneDeployed(id){
     channel = pusher_js.subscribe(channelName);
     console.log(`Subscribed to channel: ${channelName}`);
     channel.bind('App\\Events\\NewDrone',function(data){
-        var msg = Object.values(data);
+        hdr = data.header;
         console.log(`Received Message on channel ${channelName}: `)
-        console.log(data);
-        if (data.msg == 'get-status'){
+        if (data.header == 'get-status'){
+            console.log(data);
             setTimeout(fetchStatus, 500, id);
             // fetchStatus(id);
         }
+        else if (data.header == 'manual-control'){
+            console.log(data);
+            // fetchStatus(id);
+        }
+        else if (data.header == 'stop-status'){
+            console.log(data);
+            hdr = 'stop-status';
+        }
+        else if (data.header == 'start-status'){
+            console.log(data);
+            startStatus(id);
+        }
+        else{ //mission
+            console.log(JSON.parse(data.msg));
+        }
+
     });
+}
+function startStatus(id){
+    counter++;
+    if (hdr == 'stop-status'){
+        return;
+    }
+    else {
+        setTimeout(fetchStatus, 500, id);
+        return Promise.delay(3000).then(() => startStatus(id));
+    }
 }
 function fetchStatus(id){
     console.log('Fetching Status Now');
-        pusher.trigger(`drone.${id}`, 'App\\Events\\Status', {
-            droneID: id,
-            numMotors: "4",
-            batteryVolts: "12.2V",
-            location: {
-                lat: 51.909549 + (id * 0.01),
-                lng: -1.854928 + (id * 0.001),
-            },
-            missionStartedBy: "Ali",
-            missionStartedAt: "16:22",
-            status: "En-Route",
-        });
+    var num = status.batteryVolts + 0.1
+    status.batteryVolts = Math.round((num + Number.EPSILON) * 100) / 100;
+    num = status.location.lat + (counter / 1000000);
+    status.location.lat = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
+    num = status.location.lng - 0.000002;
+    status.location.lng = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
+    num = status.roll + (counter/3);
+    status.roll = Math.round((num + Number.EPSILON) * 100) / 100;
+    num = status.yaw + (counter*2);
+    status.yaw = Math.round((num + Number.EPSILON) * 100) / 100;
+    num = status.pitch - ((counter*2)/7);
+    status.pitch = Math.round((num + Number.EPSILON) * 100) / 100;
+
+    if (counter%2 == 0){
+        num = status.speed + (-1 * ((counter*2)/7));
+        status.speed = Math.round((num + Number.EPSILON) * 100) / 100;
+    }
+    else{
+        num = status.speed + (2 * ((counter*2)/3));
+        status.speed = Math.round((num + Number.EPSILON) * 100) / 100;
+    } 
+    pusher.trigger(`drone.${id}`, 'App\\Events\\Status', status);
 }
 
 function registerDrone(){

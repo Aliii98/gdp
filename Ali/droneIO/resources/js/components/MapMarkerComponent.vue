@@ -13,7 +13,7 @@ export default {
   mounted: function(){
     var drone = {
       url: 'https://i2.wp.com/fynyty.com/wp-content/uploads/2015/11/drone.png?ssl=1',
-      size: new google.maps.Size(200, 200),
+      size: new google.maps.Size(75, 75),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(75, 75)
@@ -38,6 +38,10 @@ export default {
                     this.marker.setPosition(new_marker_position);
                 });
       }
+  },
+  onClickButton (event) {
+      this.$emit('clicked', 'someValue');
+      console.log('1');
   },
   beforeDestroy(){
     this.marker.setMap(null)

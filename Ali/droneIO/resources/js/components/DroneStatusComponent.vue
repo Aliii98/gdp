@@ -3,20 +3,28 @@
   <h1 class="title has-text-centered">Status</h1>
 <!-- <div class="row justify-content-center">
   <div class="col-auto"> -->
-    <div class="box" v-for="message in messages">
-      <br>
-    ID : {{ message.droneID }}
-    <br>
-    Number of Motors : {{ message.numMotors }}
-    <br>
-    Battery Voltage : {{ message.batteryVolts }}
-    <br>
-    Location : {{ message.location.lat}}, {{ message.location.lng}}
-    <br>
-    Mission Started By : {{ message.missionStartedBy }}
-    <br>
-    Mission Started At : {{ message.missionStartedAt }}
-    <br>
+    <div v-for="message in messages" v-bind:key="message.droneID" style="width:50%;">
+      <vs-card >
+        <div slot="header">
+          <h3>
+            DRONE # {{message.droneID}}
+          </h3>
+          <div>
+            <br>
+              Number of Motors : {{ message.numMotors }}
+              <br>
+              Battery Voltage : {{ message.batteryVolts }}
+              <br>
+              Location : {{ message.location.lat}}, {{ message.location.lng}}
+              <br>
+              Mission Started By : {{ message.missionStartedBy }}
+              <br>
+              Mission Started At : {{ message.missionStartedAt }}
+              <br>
+          </div>
+        </div>
+      </vs-card>
+    <!-- {{message}} -->
     </div>
   </div>
 <!-- </div>
@@ -24,6 +32,7 @@
 </template>
 
 <script>
+import uniq from 'lodash/uniq'
 export default {
   data() {
     return {
@@ -33,17 +42,17 @@ export default {
   mounted: function(){
     this.$nextTick(function (){
       var drones = this.getSelected();
-      console.log(drones);
+      // console.log(drones);
       for (var i in drones){
         this.processForm(drones[i]);
         this.listen(drones[i]);
       }
     });
   },
-
   methods: {
     processForm: function(id) {
         var url = 'drones/' + id + '/fetchStatusDrone';
+        // var url = 'drones/' + id + '/startSendingStatus';
         axios.get(url);
         },
     listen: function(id){

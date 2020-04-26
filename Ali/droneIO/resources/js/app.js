@@ -19,12 +19,14 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('status', require('./components/StatusComponent.vue').default);
+Vue.component('manual-control', require('./components/ManualControlComponent.vue').default);
 Vue.component('dronestatus', require('./components/DroneStatusComponent.vue').default);
 Vue.component('droneselect', require('./components/MultiSelectFormComponent.vue').default);
 Vue.component('drone-map', require('./components/MapComponent.vue').default);
-Vue.component('test', require('./components/TestComponent.vue').default);
 Vue.component('map-marker', require('./components/MapMarkerComponent.vue').default);
+Vue.component('mission-map', require('./components/MissionPlanComponent.vue').default);
+Vue.component('mission-marker', require('./components/MissionMarkerComponent.vue').default);
+Vue.component('test', require('./components/TestComponent.vue').default);
 
 
 /**
@@ -40,6 +42,12 @@ import 'material-icons/iconfont/material-icons.css';
 Vue.use(Vuesax, {
   // options here
 })
+
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+
+Vue.component('VueSlider', VueSlider)
+
 const app = new Vue({
     el: '#app',
 });

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<status></status>
+<manual-control v-bind:d_id="{{$droneID}}"></manual-control>
 @endsection
 @section('headscripts')
 <script>

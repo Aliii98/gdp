@@ -1,10 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<test></test>
-@endsection
+<div id="outer">
+<iframe class="inner" id="inner" width="560" height="315" src="https://www.youtube.com/embed/F109TZt3nRc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+    @endsection
 @section('headscripts')
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJdIEzZHJI_CsVxC62OfSDbCLkZYwXKi0">
-</script>
+<style>
+#inner {
+  display: table;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+#outer {
+  width:100%
+}
+
+</style>
 @endsection

@@ -10949,7 +10949,7 @@ ol ol {
   flex-wrap: wrap;
 }
 
-.card {
+.gifcard {
   margin: 30px auto;
   width: 300px;
   height: 300px;
@@ -10959,13 +10959,13 @@ ol ol {
   transition: 0.4s;
 }
 
-.card .card_image {
+.gifcard .card_image {
   width: inherit;
   height: inherit;
   border-radius: 40px;
 }
 
-.card .card_image img {
+.gifcard .card_image img {
   width: inherit;
   height: inherit;
   border-radius: 40px;
@@ -10973,7 +10973,7 @@ ol ol {
      object-fit: cover;
 }
 
-.card .card_title {
+.gifcard .card_title {
   text-align: center;
   border-radius: 0px 0px 40px 40px;
   font-family: sans-serif;
@@ -10983,7 +10983,7 @@ ol ol {
   height: 40px;
 }
 
-.card:hover {
+.gifcard:hover {
   transform: scale(0.9, 0.9);
   box-shadow: 5px 5px 30px 15px rgba(0, 0, 0, 0.25), -5px -5px 30px 15px rgba(0, 0, 0, 0.22);
 }

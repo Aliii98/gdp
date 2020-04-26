@@ -14,15 +14,18 @@ class NewDrone implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $id;
+    public $header;
     public $msg;
+    
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($id, $msg)
+    public function __construct($id, $header, $msg)
     {
         $this->id = $id;
+        $this->header = $header;
         $this->msg = $msg;
     }
 

@@ -43,8 +43,9 @@ export default {
       checkForMap();
     },
     processForm: function(id) {
-        var url = '/status/drones/' + id + '/fetchStatusDrone';
+        var url = '/status/drones/' + id + '/startSendingStatus';
         axios.get(url);
+        console.log(url);
         },
     listen: function(id){
         Echo.channel(`drone.${id}`)
