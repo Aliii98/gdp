@@ -25,7 +25,7 @@ Vue.component('droneselect', require('./components/MultiSelectFormComponent.vue'
 Vue.component('drone-map', require('./components/MapComponent.vue').default);
 Vue.component('map-marker', require('./components/MapMarkerComponent.vue').default);
 Vue.component('mission-map', require('./components/MissionPlanComponent.vue').default);
-Vue.component('mission-marker', require('./components/MissionMarkerComponent.vue').default);
+Vue.component('heatmap', require('./components/HeatmapComponent.vue').default);
 Vue.component('test', require('./components/TestComponent.vue').default);
 
 

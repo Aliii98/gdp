@@ -56,14 +56,16 @@
        <div class="row justify-content-center">
         <!-- left col -->
         <div class="col-auto">
+          <a v-on:click="heatmap" class="get-status">
             <div class="gifcard">
             <div class="card_image">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ_1OIXj1RkEkWYFxxvwhizrfLBN7Pgl2pFMQsgvb84NmxkZiIi" />
                 </div>
                 <div class="card_title">
-                    <p class="title-white">Thermal Feed</p>
+                    <p class="title-white">Heat-Map View</p>
                 </div>
             </div>
+            </a>
         <!-- end of left -->
         </div>
         <!-- center col -->
@@ -209,6 +211,22 @@ export default {
             }
           }
             window.location.href = 'map/drones&' + selected;
+          }
+          else {
+            this.popupActivo4=true;
+        }
+      }
+    },
+    heatmap: function(){
+      if (this.isAdmin()){
+        if (this.value.length != 0){
+          var selected = this.value[0].code;
+          for(var i in this.value){
+            if (this.value.length > 1 && selected != this.value[i].code){
+            selected = selected + '&' + this.value[i].code;
+            }
+          }
+            window.location.href = 'heatmap/drones&' + selected;
           }
           else {
             this.popupActivo4=true;

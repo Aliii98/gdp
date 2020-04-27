@@ -45,6 +45,10 @@ class DronesController extends Controller
     {   
         event(new NewDrone($droneID, 'get-status' ,"get-status"));
     }
+    public function sendHeatmapData($droneID)
+    {   
+        event(new NewDrone($droneID, 'get-heatmap' ,"get-heatmap"));
+    }
     public function startSendingStatus($droneID)
     {   
         event(new NewDrone($droneID, 'start-status' ,"start-status"));

@@ -154,3 +154,10 @@ return [
 // DB_DATABASE=heroku_43e3daab42a1009
 // DB_USERNAME=bfc60ef859aafa
 // DB_PASSWORD=2f95ca91
+
+// DB_CONNECTION=mysql
+// DB_HOST=127.0.0.1
+// DB_PORT=3306
+// DB_DATABASE=laravel
+// DB_USERNAME=root
+// DB_PASSWORD=June261998

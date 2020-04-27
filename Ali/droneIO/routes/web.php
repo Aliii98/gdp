@@ -27,6 +27,11 @@ Route::get('/map/{droneID}', function(){
     // return view('map')->with('lat' , 53.807545);
     return view('map');
 });
+Route::get('/heatmap/{droneID}', function(){
+    $drones = Drone::where('deployed_by', Auth::user()->id)->get();
+    // return view('map')->with('lat' , 53.807545);
+    return view('heatmap');
+});
 Route::get('/mission/{droneID}', function(){
     $drones = Drone::where('deployed_by', Auth::user()->id)->get();
     // return view('map')->with('lat' , 53.807545);
@@ -42,6 +47,7 @@ Route::resource('drones', 'DronesController');
 Route::post('drones/{droneID}/online', 'DronesController@goOnline');
 Route::post('drones/{droneID}/offline', 'DronesController@goOffline');
 Route::get('status/drones/{droneID}/fetchStatusDrone', 'DronesController@fetchStatusDrone');
+Route::get('status/drones/{droneID}/sendHeatmapData', 'DronesController@sendHeatmapData');
 Route::get('status/drones/{droneID}/startSendingStatus', 'DronesController@startSendingStatus');
 Route::get('status/drones/{droneID}/stopSendingStatus', 'DronesController@stopSendingStatus');
 Route::post('/mission/{droneID}/startMission', 'DronesController@sendJourney');

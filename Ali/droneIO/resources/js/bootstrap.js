@@ -36,7 +36,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'myKey',
     wsHost: window.location.hostname,
-    // wsHost: '65582ce4.ngrok.io',
+    // wsHost: '740c329a.ngrok.io',
     wsPort: 6001,
 });
 
