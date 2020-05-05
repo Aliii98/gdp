@@ -1943,16 +1943,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      messages: []
+      messages: [],
+      responseTimes: [],
+      startTime: null,
+      endTime: null,
+      temp: [{
+        id: null,
+        start: null,
+        end: null
+      }],
+      responseTimesMultiple: []
     };
   },
   mounted: function mounted() {
     this.$nextTick(function () {
-      var drones = this.getSelected(); // console.log(drones);
+      var drones = this.getSelected();
+      console.log(drones);
 
       for (var i in drones) {
         this.processForm(drones[i]);
@@ -1961,10 +1982,47 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    stopStatus: function stopStatus() {
+      var drones = this.getSelected();
+
+      for (var i in drones) {
+        var url = '/status/drones/' + drones[i] + '/stopSendingStatus';
+        axios.get(url);
+      }
+    },
     processForm: function processForm(id) {
       var url = 'drones/' + id + '/fetchStatusDrone'; // var url = 'drones/' + id + '/startSendingStatus';
 
       axios.get(url);
+    },
+    singleTest: function singleTest() {
+      var id = this.getSelected(); // for (var i in id){
+
+      this.listen_get(id);
+      this.listen_status(id);
+      this.resTimeTest(id); // }
+    },
+    multipleTest: function multipleTest() {
+      var drones = this.getSelected();
+
+      for (var i in drones) {
+        this.temp.push({
+          id: drones[i]
+        });
+        this.listen_get_multiple(drones[i]);
+        this.listen_status_multiple(drones[i]);
+        this.resTimeTest_Multiple(drones[i]);
+      }
+    },
+    resTimeTest: function resTimeTest(id) {
+      var url = 'drones/' + id + '/fetchStatusDrone';
+      axios.get(url);
+      setTimeout(this.resTimeTest, 1000, id);
+    },
+    resTimeTest_Multiple: function resTimeTest_Multiple(id) {
+      var url = 'drones/' + id + '/fetchStatusDrone';
+      axios.get(url);
+      setTimeout(this.resTimeTest_Multiple, 1000 * 5, id);
     },
     listen: function listen(id) {
       var _this = this;
@@ -1974,6 +2032,63 @@ __webpack_require__.r(__webpack_exports__);
         _this.messages.push(event);
 
         console.log(event); // console.log(this.messages);
+      });
+    },
+    listen_status: function listen_status(id) {
+      var _this2 = this;
+
+      Echo.channel("drone.".concat(id)).listen('Status', function (event) {
+        // this.$set(this.messages, 'droneID', event);
+        _this2.endTime = new Date().getTime();
+
+        _this2.messages.push(event);
+
+        _this2.responseTimes.push(_this2.endTime - _this2.startTime);
+
+        console.log(event); // console.log(this.messages);
+      });
+    },
+    listen_status_multiple: function listen_status_multiple(id) {
+      var _this3 = this;
+
+      Echo.channel("drone.".concat(id)).listen('Status', function (event) {
+        _this3.messages.push(event);
+
+        for (var i in _this3.temp) {
+          if (_this3.temp[i].id == id) {
+            _this3.temp[i].end = new Date().getTime(); // console.log(JSON.stringify(this.temp[i]));
+
+            var jsonTemp = JSON.stringify(_this3.temp[i]);
+
+            _this3.responseTimesMultiple.push(JSON.parse(jsonTemp));
+
+            console.log(JSON.stringify(_this3.responseTimesMultiple)); // this.temp[i].start = 0;
+            // this.temp[i].end = 0;
+          }
+        } // console.log('full')
+        // console.log(this.responseTimesMultiple);
+
+      });
+    },
+    listen_get: function listen_get(id) {
+      var _this4 = this;
+
+      Echo.channel("drone.".concat(id)).listen('NewDrone', function (event) {
+        _this4.startTime = new Date().getTime(); //single test
+      });
+    },
+    listen_get_multiple: function listen_get_multiple(id) {
+      var _this5 = this;
+
+      Echo.channel("drone.".concat(id)).listen('NewDrone', function (event) {
+        //multiple test
+        for (var i in _this5.temp) {
+          if (_this5.temp[i].id == id) {
+            _this5.temp[i].start = new Date().getTime();
+          }
+        } // console.log('temp');
+        // console.log(this.temp);
+
       });
     },
     getSelected: function getSelected() {
@@ -2825,9 +2940,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       Echo.channel("drone.".concat(id)).listen('Status', function (event) {
-        _this.drones.push(event);
-
         console.log(event);
+
+        _this.drones.push(event);
       });
     },
     getSelected: function getSelected() {
@@ -51605,7 +51720,7 @@ var render = function() {
       _vm._l(_vm.messages, function(message) {
         return _c(
           "div",
-          { key: message.droneID, staticStyle: { width: "50%" } },
+          { staticStyle: { width: "50%" } },
           [
             _c("vs-card", [
               _c("div", { attrs: { slot: "header" }, slot: "header" }, [

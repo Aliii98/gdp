@@ -19,6 +19,7 @@ export default {
     }
   },
   mounted: function(){
+
       this.map = new window.google.maps.Map(this.$refs["map"], {
         center: { lat: 53.809549, lng: -1.554928},
         zoom: 6
@@ -50,11 +51,12 @@ export default {
     listen: function(id){
         Echo.channel(`drone.${id}`)
                 .listen('Status',(event) => {
-                    this.drones.push(event)
-                    console.log(event);
+                  console.log(event);
+                  this.drones.push(event)
                 });
       },
     getSelected: function(){
+      
         let uri = window.location.href.split('&');
         var drones = [];
           uri.forEach(function(value,index){
@@ -62,6 +64,7 @@ export default {
               drones.push(uri[index])
             }
         });
+
         return drones;
       }
   }

@@ -5,6 +5,29 @@ const process = require('process');
 const readline = require('readline');
 const async = require('async-kit');
 var counter = 0;
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "us-cdbr-iron-east-01.cleardb.net",
+  user: "bfc60ef859aafa",
+  password: "2f95ca91",
+  database: "heroku_43e3daab42a1009"
+
+});
+con.connect(function(err) {
+    if (err) throw err;
+  });
+function getLatestCoords(){
+    con.query("SELECT * FROM drone", function (err, result, fields) {
+        if (err) throw err;
+      status.location.lat = result[result.length-1].lat;
+      status.location.lng = result[result.length-1].lng;
+      status.location.alt = result[result.length-1].alt;
+    //   console.log(status);
+      });
+}
+
+
 var pusher = new Pusher({
     appId: 'myId',
     key: 'myKey',
@@ -21,21 +44,28 @@ const pusher_js = new PusherJS('myKey', {
     wsHost: 'localhost',
     wsPort: 6001,
   });
-var droneID=9;
+// var droneID=1;
+// droneDeployed(droneID);
+// var droneID=2;
+// droneDeployed(droneID);
+var droneID=1;
 droneDeployed(droneID);
-// var droneID=9;
-// droneDeployed(droneID);
-// var droneID=8;
-// droneDeployed(droneID);
-// var deployed_by = 1;
-// var airframe = "Quad+";
+// var deployed_by = 2;
+// var airframe = "MAVIC-PRO";
 // newDrone();
 // fetchStatus(1);
 // pusher.trigger('drone.6', 'App\\Events\\NewMessage', 'HELLOOOOOOOOO');
+//TEST-10
+// var droneID = 0;
+// var i = 16;
+// for (var id = i; id <=i+2; id++){
+//     var droneID = id;
+//     droneDeployed(id);
+// }
 var hdr;
 // lat:53.782551, lng:-1.445368
 var status = {
-    droneID: droneID,
+    droneID: null,
     batteryVolts: 12.20,
     location: {
         lat: 53.782551,
@@ -98,33 +128,79 @@ function startStatus(id){
     }
     else {
         setTimeout(fetchStatus, 500, id);
-        return Promise.delay(3000).then(() => startStatus(id));
+        return Promise.delay(3*1000).then(() => startStatus(id)); //default 3s
     }
 }
 function fetchStatus(id){
     console.log('Fetching Status Now');
-    var num = status.batteryVolts + 0.1
-    status.batteryVolts = Math.round((num + Number.EPSILON) * 100) / 100;
-    num = status.location.lat + (counter / 1000000);
-    status.location.lat = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
-    num = status.location.lng - 0.000002;
-    status.location.lng = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
-    num = status.roll + (counter/3);
-    status.roll = Math.round((num + Number.EPSILON) * 100) / 100;
-    num = status.yaw + (counter*2);
-    status.yaw = Math.round((num + Number.EPSILON) * 100) / 100;
-    num = status.pitch - ((counter*2)/7);
-    status.pitch = Math.round((num + Number.EPSILON) * 100) / 100;
-
-    if (counter%2 == 0){
-        num = status.speed + (-1 * ((counter*2)/7));
-        status.speed = Math.round((num + Number.EPSILON) * 100) / 100;
-    }
-    else{
-        num = status.speed + (2 * ((counter*2)/3));
-        status.speed = Math.round((num + Number.EPSILON) * 100) / 100;
-    } 
+    status.droneID = id;
+    // var num = status.batteryVolts + 0.1
+    // status.batteryVolts = Math.round((num + Number.EPSILON) * 100) / 100;
+    // num = 0;
+    // num = status.location.lat + (counter / 1000000);
+    // status.location.lat = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
+    // num = 0;
+    // num = status.location.lng - 0.000002;
+    // status.location.lng = Math.round((num + Number.EPSILON) * 1000000) / 1000000;
+    // num = 0;
+    // num = status.roll + (counter/3);
+    // status.roll = Math.round((num + Number.EPSILON) * 1000) / 1000;
+    // num = 0;
+    // num = status.yaw + (counter*2);
+    // status.yaw = Math.round((num + Number.EPSILON) * 1000) / 1000;
+    // num = 0;
+    // num = status.pitch - ((counter*2)/7);
+    // status.pitch = Math.round((num + Number.EPSILON) * 1000) / 1000;
+    // num = 0;
+    // if (counter%2 == 0){
+    //     num = status.speed + (-1 * ((counter*2)/7));
+    //     status.speed = Math.round((num + Number.EPSILON) * 1000) / 1000;
+    //     num = 0;
+    // }
+    // else{
+    //     num = status.speed + (2 * ((counter*2)/3));
+    //     status.speed = Math.round((num + Number.EPSILON) * 1000) / 1000;
+    //     num = 0;
+    // } 
+    // fix(status.batteryVolts, 2);
+    // fix(status.location.lat, 6);
+    // fix(status.location.lng, 6);
+    // fix(status.roll, 2);
+    // fix(status.yaw, 2);
+    // fix(status.pitch, 2);
+    // fix(status.speed, 2);
+    getLatestCoords();
     pusher.trigger(`drone.${id}`, 'App\\Events\\Status', status);
+}
+
+/**
+ * 
+71	53.8097	-1.55476	24.909
+81	53.8103	-1.55597	21.115
+91	53.811	-1.55718	17.284
+101	53.8118	-1.5579	14.812
+111	53.8113	-1.55761	14.48
+121	53.8118	-1.55702	14.352
+131	53.8112	-1.55655	14.432
+141	53.8104	-1.5556	14.685
+151	53.8097	-1.55465	14.952
+161	53.8095	-1.55446	2.88
+171	0	0	0
+181	47.3978	8.54559	22.706
+191	47.3978	8.5456	22.752
+201	47.3978	8.5456	22.747
+211	0	0	0
+221	47.3979	8.54545	24.935
+231	47.3988	8.54489	17.744
+241	47.3996	8.54469	14.973
+251	47.3991	8.54519	14.63
+261	47.3993	8.54544	14.384
+271	47.3987	8.54567	14.502
+281	47.3978	8.54559	14.987
+291	47.3977	8.54559	-0.407
+ */
+function fix(num, dp){
+    return Number.parseFloat(num).toFixed(dp);
 }
 
 function getHeat(id){
