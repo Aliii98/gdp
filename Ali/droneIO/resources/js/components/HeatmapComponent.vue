@@ -69,7 +69,10 @@ export default {
                     // this.heatmapData.push(event.data);
                     var google_heatmap_data = [];
                     for (var pt in event.data){
-                      google_heatmap_data.push(new google.maps.LatLng(event.data[pt].lat, event.data[pt].lng)) 
+                      google_heatmap_data.push({
+                        location: new google.maps.LatLng(event.data[pt].lat, event.data[pt].lng),
+                        weight: event.data[pt].weight,
+                      }) 
                     }
                     var heatmap = new google.maps.visualization.HeatmapLayer({
                     data: google_heatmap_data

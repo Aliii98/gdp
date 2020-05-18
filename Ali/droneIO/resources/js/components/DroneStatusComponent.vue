@@ -62,7 +62,7 @@ export default {
   mounted: function(){
     this.$nextTick(function (){
       var drones = this.getSelected();
-      console.log(drones);
+      // console.log(drones);
       for (var i in drones){
         this.processForm(drones[i]);
         this.listen(drones[i]);
@@ -115,7 +115,7 @@ export default {
                 .listen('Status',(event) => {
                     // this.$set(this.messages, 'droneID', event);
                     this.messages.push(event)
-                    console.log(event);
+                    // console.log(event);
                     // console.log(this.messages);
                 });
         },
@@ -126,7 +126,7 @@ export default {
                     this.endTime = new Date().getTime();
                     this.messages.push(event)
                     this.responseTimes.push(this.endTime - this.startTime);
-                    console.log(event);
+                    // console.log(event);
                     // console.log(this.messages);
                 });
         },
@@ -140,7 +140,7 @@ export default {
                     // console.log(JSON.stringify(this.temp[i]));
                     var jsonTemp = JSON.stringify(this.temp[i]);
                     this.responseTimesMultiple.push(JSON.parse(jsonTemp));
-                    console.log(JSON.stringify(this.responseTimesMultiple));
+                    // console.log(JSON.stringify(this.responseTimesMultiple));
                     // this.temp[i].start = 0;
                     // this.temp[i].end = 0;
                   }

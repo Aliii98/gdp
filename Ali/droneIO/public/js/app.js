@@ -1972,8 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.$nextTick(function () {
-      var drones = this.getSelected();
-      console.log(drones);
+      var drones = this.getSelected(); // console.log(drones);
 
       for (var i in drones) {
         this.processForm(drones[i]);
@@ -2029,9 +2028,9 @@ __webpack_require__.r(__webpack_exports__);
 
       Echo.channel("drone.".concat(id)).listen('Status', function (event) {
         // this.$set(this.messages, 'droneID', event);
-        _this.messages.push(event);
+        _this.messages.push(event); // console.log(event);
+        // console.log(this.messages);
 
-        console.log(event); // console.log(this.messages);
       });
     },
     listen_status: function listen_status(id) {
@@ -2043,9 +2042,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.messages.push(event);
 
-        _this2.responseTimes.push(_this2.endTime - _this2.startTime);
+        _this2.responseTimes.push(_this2.endTime - _this2.startTime); // console.log(event);
+        // console.log(this.messages);
 
-        console.log(event); // console.log(this.messages);
       });
     },
     listen_status_multiple: function listen_status_multiple(id) {
@@ -2060,10 +2059,10 @@ __webpack_require__.r(__webpack_exports__);
 
             var jsonTemp = JSON.stringify(_this3.temp[i]);
 
-            _this3.responseTimesMultiple.push(JSON.parse(jsonTemp));
-
-            console.log(JSON.stringify(_this3.responseTimesMultiple)); // this.temp[i].start = 0;
+            _this3.responseTimesMultiple.push(JSON.parse(jsonTemp)); // console.log(JSON.stringify(this.responseTimesMultiple));
+            // this.temp[i].start = 0;
             // this.temp[i].end = 0;
+
           }
         } // console.log('full')
         // console.log(this.responseTimesMultiple);
@@ -2188,7 +2187,10 @@ __webpack_require__.r(__webpack_exports__);
           var google_heatmap_data = [];
 
           for (var pt in event.data) {
-            google_heatmap_data.push(new google.maps.LatLng(event.data[pt].lat, event.data[pt].lng));
+            google_heatmap_data.push({
+              location: new google.maps.LatLng(event.data[pt].lat, event.data[pt].lng),
+              weight: event.data[pt].weight
+            });
           }
 
           var heatmap = new google.maps.visualization.HeatmapLayer({
@@ -2842,8 +2844,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.popupActivo5 = true;
-    window.addEventListener('scroll', this.noScroll);
+    this.popupActivo5 = true; // window.addEventListener('scroll', this.noScroll);
+
     this.$nextTick(function () {
       this.listen(this.d_id);
       axios.get("/status/drones/".concat(this.d_id, "/startSendingStatus"));
@@ -51929,7 +51931,7 @@ var render = function() {
             _c("div", { attrs: { slot: "header" }, slot: "header" }, [
               _c("h3", [_vm._v("\n            ALT\n          ")]),
               _vm._v(" "),
-              _c("div", [_vm._v(_vm._s(_vm.alt))])
+              _c("div", [_vm._v(_vm._s(_vm.status.location.alt))])
             ])
           ]),
           _vm._v(" "),
@@ -52207,7 +52209,7 @@ var staticRenderFns = [
         attrs: {
           width: "560",
           height: "315",
-          src: "https://www.youtube.com/embed/XBPjVzSoepo",
+          src: "https://www.youtube.com/embed/Xf5QTs2NLRc",
           frameborder: "0",
           allow:
             "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",

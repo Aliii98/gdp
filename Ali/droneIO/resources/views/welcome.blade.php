@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Drone.IO</title>
+        <title>DroneIO</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -85,7 +85,7 @@
             <div class="content">
                 <div><img src="/png//HoverGamesLogo.png" style="max-height:350px;"></div>
                 <div class="title m-b-md">
-                    Drone.IO
+                    DroneIO
                 </div>
                 @auth
                 Welcome <strong>{{ Auth::user()->name }}</strong>

@@ -65,7 +65,7 @@
           <h3>
             ALT
           </h3>
-          <div>{{alt}}</div>
+          <div>{{status.location.alt}}</div>
         </div>
       </vs-card>
       <!-- </div> -->
@@ -90,7 +90,7 @@
       </vs-card>
       </div>
     <div id="box-c">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XBPjVzSoepo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    </div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Xf5QTs2NLRc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    </div>
     <br>
     <br>
     <form id="signup-form" @submit.prevent="processForm('none')">
@@ -618,7 +618,7 @@ export default {
   },
   mounted: function(){
     this.popupActivo5=true;
-    window.addEventListener('scroll', this.noScroll);
+    // window.addEventListener('scroll', this.noScroll);
     this.$nextTick(function (){
       this.listen(this.d_id);
       axios.get(`/status/drones/${this.d_id}/startSendingStatus`);
